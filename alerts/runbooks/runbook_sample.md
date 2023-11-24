@@ -42,16 +42,8 @@ If you don’t know what to do, contact the team responsible for the machine/app
 
 ## Additional notes
 
-If some alerts are firing regularly but don’t require any reaction, consider disabling them - [[RFC] Disabling alerts and setting `maintenance` windows](https://www.notion.so/RFC-Disabling-alerts-and-setting-maintenance-windows-10860ed03c624c00bd1bf88cd1bf73c2?pvs=21) 
+If some alerts are firing regularly but don’t require any reaction, consider disabling them
 
 ## Useful links
 
-- [Runbooks list](https://www.notion.so/c4b19865b32e43e9b801d8d83fc15fed?pvs=21)
-- [Team Roster](https://www.notion.so/28692767a8534540bd38a2b688b17837?pvs=21)
-- [Lido Applications](https://www.notion.so/bf710ed15c4f40c8b170d30ee4d8efe1?pvs=21)
-- [[RFC] Alerts naming and rules configuration convention](https://www.notion.so/RFC-Alerts-naming-and-rules-configuration-convention-8b678ecba2714fbc92122f5956fe969e?pvs=21)
-- [[RFC] Disabling alerts and setting `maintenance` windows](https://www.notion.so/RFC-Disabling-alerts-and-setting-maintenance-windows-10860ed03c624c00bd1bf88cd1bf73c2?pvs=21)
-
-## TODO
-
-- Discuss escalation
+- some link
