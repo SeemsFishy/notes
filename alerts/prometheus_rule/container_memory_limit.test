@@ -1,0 +1,60 @@
+---
+evaluation_interval: 1m
+rule_files:
+  - container_memory_limit.rule
+tests:
+  - alert_rule_test:
+      - alertname: Container_memory_limit_devel
+        eval_time: 25m
+        exp_alerts: []
+      - alertname: Container_memory_limit_devel
+        eval_time: 30m
+        exp_alerts:
+          - exp_annotations:
+              name: Container_memory_limit_devel on notarealhost
+              info: "Cotainer is reaching memory limit on notarealhost/127.0.0.1/container1"
+              runbook: "RunbookLink"
+              grafana: "GrafanaLink"
+            exp_labels:
+              env: devel
+              name: container1
+              source: notarealhost
+              severity: minor
+              host: 127.0.0.1
+              category: memory
+              service: docker
+              alerts: enable
+      - alertname: Container_memory_limit_devel
+        eval_time: 60m
+        exp_alerts: []
+    input_series:
+        # healthy, with alerts enabled
+      - series: container_memory_usage_bytes{env="devel",name="container1",source="notarealhost",host="127.0.0.1",alerts="enable"}
+        values: '100x60'
+      - series: container_spec_memory_limit_bytes{env="devel",name="container1",source="notarealhost",host="127.0.0.1",alerts="enable"}
+        values: '10000x60'
+        # unhealthy, with alerts disabled
+      - series: container_memory_usage_bytes{env="devel",name="container1",source="notarealhost",host="127.0.0.1",alerts="disable"}
+        values: '10000x34 100x30'
+      - series: container_spec_memory_limit_bytes{env="devel",name="container1",source="notarealhost",host="127.0.0.1",alerts="disable"}
+        values: '10000x60'
+        # unhealthy, with alerts enabled
+      - series: container_memory_usage_bytes{env="devel",name="container1",source="notarealhost",host="127.0.0.1",alerts="enable"}
+        values: '10000x34 100x30'
+      - series: container_spec_memory_limit_bytes{env="devel",name="container1",source="notarealhost",host="127.0.0.1",alerts="enable"}
+        values: '10000x60'
+        # unhealthy, with maintenance
+      - series: container_memory_usage_bytes{env="devel",name="container1",source="notarealhost2",host="127.0.0.1",alerts="enable"}
+        values: '10000x34 100x30'
+      - series: container_spec_memory_limit_bytes{env="devel",name="container1",source="notarealhost2",host="127.0.0.1",alerts="enable"}
+        values: '10000x60'
+      - series: maintenance{env="devel",name="container1",source="notarealhost2"}
+        values: '1x34'
+        # unhealthy, with disable_Container_memory_limit_devel
+      - series: container_memory_usage_bytes{env="devel",name="container1",source="notarealhost3",host="127.0.0.1",alerts="enable"}
+        values: '10000x34 100x30'
+      - series: container_spec_memory_limit_bytes{env="devel",name="container1",source="notarealhost3",host="127.0.0.1",alerts="enable"}
+        values: '10000x60'
+      - series: disable_Container_memory_limit_devel{env="devel",name="container1",source="notarealhost3"}
+        values: '1x34'
+    interval: 1m

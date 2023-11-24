@@ -1,0 +1,11 @@
+---
+groups:
+  - name: Some alert disable rule
+    rules:
+      - record: disable_Container_memory_limit_devel
+        expr: 1
+        labels:
+          env: devel
+          source: notarealhost
+          name: container1
+          reason: 'Some reason'

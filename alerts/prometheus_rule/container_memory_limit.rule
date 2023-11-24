@@ -1,0 +1,17 @@
+---
+groups:
+  - name: cadvisor
+    rules:
+      - alert: Container_memory_limit_devel
+        annotations:
+          name: Container_memory_limit_devel on {{ $labels.source }}
+          info: "Cotainer is reaching memory limit on {{ $labels.source }}/{{ $labels.host }}/{{ $labels.name }}"
+          runbook: "RunbookLink"
+          grafana: "GrafanaLink"
+        expr:
+          (container_memory_usage_bytes{id!="/",alerts!="disable"} / container_spec_memory_limit_bytes{id!="/",alerts!="disable"}) * 100 !=+Inf > 90 UNLESS ON(env,source,name) (maintenance == 1 OR disable_Container_memory_limit_devel == 1)
+        for: 30m
+        labels:
+          severity: minor
+          category: memory
+          service: docker
